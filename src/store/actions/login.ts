@@ -13,19 +13,25 @@ export const logout = () => {
     type: LOGOUT
   }
 }
+/* 用户数据 */
+type AppUserInfo = {
+  userId: string
+  nickName: string
+  sex: 0 | 1 | 2
+}
 
 // 登录异步action
 export const setLoginIn = () => {
-  return dispatch => {
-    // 模拟异步action
-    setTimeout(() => {
-      dispatch(login())
-      const info: AppUserInfo = {
-        userId: '123456',
-        nickName: 'nickname',
-        sex: 2
-      }
-      dispatch(setAppUserInfo(info))
-    }, 1000)
-  }
+  // return dispatch => {
+  //   // 模拟异步action
+  //   setTimeout(() => {
+  //     dispatch(login())
+  //     const info: AppUserInfo = {
+  //       userId: '123456',
+  //       nickName: 'nickname',
+  //       sex: 2
+  //     }
+  //     dispatch(setAppUserInfo(info))
+  //   }, 1000)
+  // }
 }

@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, Method } from 'axios'
 import envConfig from '@/config'
-import { Toast } from 'antd-mobile'
+import { Toast } from 'antd-mobile-v2'
 import { getHttpStatusText } from './status'
 // import { LoadingElement } from '@/components/loading'
 /**
@@ -93,9 +93,9 @@ export default function request(
       .then(res => {
         const data = res.data as ResponseType<any>
         // 这里可以添加和后台的 status 约定
-        // if (data.code !== 200) {
-        //   Toast.info(data.msg)
-        // }
+        if (data.code !== 0) {
+          Toast.info(data.msg)
+        }
         resolve(data.data)
       })
       .catch(err => {

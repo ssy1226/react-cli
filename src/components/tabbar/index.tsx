@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react'
-import { TabBar } from 'antd-mobile'
+import { TabBar } from 'antd-mobile-v2'
 import { useHistory, withRouter } from 'react-router-dom'
 import './index.scss'
 
 const tabs = [
   {
-    title: '首页',
-    icon: require('@/assets/home.png'),
-    selectedIcon: require('@/assets/home-sel.png'),
+    title: '填写日报',
+    icon: require('@/assets/discovery.png'),
+    selectedIcon: require('@/assets/discovery-sel.png'),
     badge: 0,
     selected: true,
     path: '/index'
   },
   {
-    title: '关于',
-    icon: require('@/assets/discovery.png'),
-    selectedIcon: require('@/assets/discovery-sel.png'),
+    title: '我的',
+    icon: require('@/assets/home.png'),
+    selectedIcon: require('@/assets/home-sel.png'),
     badge: 0,
     selected: false,
     path: '/about'
@@ -47,7 +47,8 @@ function AppTabBar() {
         bottom: 0,
         width: '100%',
         height: '1rem',
-        display: hideTab ? 'none' : 'block'
+        display: hideTab ? 'none' : 'block',
+        zIndex:1000
       }}>
       <TabBar
         unselectedTintColor="#949494"

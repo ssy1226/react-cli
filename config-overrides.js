@@ -17,7 +17,7 @@ const analyze = process.env.REACT_APP_ENV === 'production' //是否分析打包�
 module.exports = override(
   /**
    * 假如设计图给的宽度是750，remUnit设置为75，这样我们写样式时，可以直接按照设计图标注的宽高来1:1还原开发。
-   * PS: 如果引用了某些没有兼容px2rem第三方UI框架，有的 1rem = 100px（antd-mobile）， 有的 1rem = 75px，
+   * PS: 如果引用了某些没有兼容px2rem第三方UI框架，有的 1rem = 100px（antd-mobile-v2）， 有的 1rem = 75px，
    * 需要将remUnit的值设置为像素对应的一半（这里我们用的antd-mobile，所以设置为50），即可以1:1还原组件。
    */
   addPostcssPlugins([require('postcss-px2rem')({ remUnit: 50 })]),
@@ -38,7 +38,7 @@ module.exports = override(
   }),
   /* 按需引入antd-mobile */
   fixBabelImports('import', {
-    libraryName: 'antd-mobile',
+    libraryName: 'antd-mobile-v2',
     style: 'css'
   }),
   analyze

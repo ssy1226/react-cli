@@ -6,7 +6,7 @@ import { LoadingElement } from '@/components/loading'
 
 /* Use components to define routes */
 const RouterView = () => (
-  <BrowserRouter basename="/react-cli">
+  <BrowserRouter basename="/m">
     <AppTabBar></AppTabBar>
     <Suspense fallback={LoadingElement}>
       <Switch>

@@ -387,15 +387,15 @@ module.exports = function (app) {
 
 项目已经配置好 `rem` 适配，下面仅做介绍：
 
-`antd-mobile` 中的样式默认使用`px`作为单位，如果需要使用`rem`单位，推荐使用`postcss-px2rem` 搭配 `src/utils/rem.ts`一起使用。其中 `src/utils/rem.ts` 实现了一个极简的 rem 库。
+`antd-mobile-v2-v2` 中的样式默认使用`px`作为单位，如果需要使用`rem`单位，推荐使用`postcss-px2rem` 搭配 `src/utils/rem.ts`一起使用。其中 `src/utils/rem.ts` 实现了一个极简的 rem 库。
 
 `postcss-px2rem` 插件使用
 
 - 假如设计图给的宽度是 750，remUnit 设置为 75，这样我们写样式时，可以直接按照设计图标注的宽高来 1:1 还原开发。
 
-- PS: 如果引用了某些没有兼容 px2rem 第三方 UI 框架，有的 1rem = 100px（antd-mobile）， 有的 1rem = 75px
+- PS: 如果引用了某些没有兼容 px2rem 第三方 UI 框架，有的 1rem = 100px（antd-mobile-v2-v2）， 有的 1rem = 75px
 
-- 需要将 remUnit 的值设置为像素对应的一半（antd-mobile 即 50），即可以 1:1 还原组件，否则会样式会有变化，例如按钮会变小。
+- 需要将 remUnit 的值设置为像素对应的一半（antd-mobile-v2-v2 即 50），即可以 1:1 还原组件，否则会样式会有变化，例如按钮会变小。
 
 `config-overrides.js`，使用`addPostcssPlugins`设置
 
@@ -423,9 +423,9 @@ const { override, fixBabelImports } = require('customize-cra')
 // 引用 antd 后设置按需引入后，在打包的时候会生成很多 .map 文件
 process.env.GENERATE_SOURCEMAP = 'false'
 module.exports = override(
-  /* 按需引入antd-mobile */
+  /* 按需引入antd-mobile-v2 */
   fixBabelImports('import', {
-    libraryName: 'antd-mobile',
+    libraryName: 'antd-mobile-v2-v2',
     style: 'css'
   })
 )

@@ -1,7 +1,7 @@
 import { lazy } from 'react'
 const Index = lazy(() => import(/* webpackChunkName: "Index" */ '@/pages/index'))
 const About = lazy(() => import(/* webpackChunkName: "About" */ '@/pages/about'))
-const Detail = lazy(() => import(/* webpackChunkName: "Detail" */ '@/pages/detail'))
+const Login = lazy(() => import(/* webpackChunkName: "Detail" */ '@/pages/detail'))
 
 export interface RouteConfig {
   path: string
@@ -21,8 +21,8 @@ export const routes: RouteConfig[] = [
     exact: true
   },
   {
-    path: '/detail',
-    component: Detail,
+    path: '/login',
+    component: Login,
     exact: true
   }
 ]

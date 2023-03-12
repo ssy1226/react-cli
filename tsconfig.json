@@ -1,6 +1,8 @@
 {
   "extends": "./paths.json",
   "compilerOptions": {
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
     "target": "es5",
     "lib": [
       "dom",
@@ -8,7 +10,6 @@
       "esnext"
     ],
     "allowJs": true,
-    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
@@ -22,9 +23,9 @@
     "noImplicitAny": false
   },
   "include": [
-    "."
+    "src/**/*"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules/**/*"
   ]
 }
