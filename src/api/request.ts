@@ -21,8 +21,9 @@ const initAxios = (loading?: boolean) => {
   const AxiosInstance = axios.create({
     baseURL: envConfig.BASE_URL,
     timeout: TIMEOUT,
-    withCredentials: false
+    withCredentials: true
   })
+
 
   // request interceptor
   AxiosInstance.interceptors.request.use(config => {
@@ -31,7 +32,7 @@ const initAxios = (loading?: boolean) => {
     // if (loading) Toast.loading(LoadingElement, TIMEOUT)
     // 自定义headers
     config.headers = {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     }
     return config
   })
@@ -96,7 +97,7 @@ export default function request(
         if (data.code !== 0) {
           Toast.info(data.msg)
         }
-        resolve(data.data)
+        resolve(data)
       })
       .catch(err => {
         reject(err)

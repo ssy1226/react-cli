@@ -1,15 +1,43 @@
-import React, {useEffect,useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Form, Input, Button, Cascader } from 'antd-mobile';
 import s from './index.module.scss';
-import { FormInstance } from 'antd-mobile/es/components/form/form';
-
+import { useHistory } from 'react-router-dom'
+import IndexApi from '@/api/index'
 
 const Detail=()=> {
+  const history = useHistory()
   const [type,setType] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [deptData, setDeptData] = useState<any>({id:'',name: ''});
+  const [deptData, setDeptData] = useState({id:'',name: ''});
+  const [optionData, setOptionData] = useState([]);
+  const setCookie = (cname,cvalue,exdays)=>
+  {
+    var d = new Date();
+    d.setTime(d.getTime()+(exdays*24*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
+  }
   const onFinish = (values)=>{
     console.log(values);
+    if(type){
+      
+      IndexApi.saveLogin(values).then((res)=>{
+        const {code,data} =res; 
+        if(code==0){
+          setCookie('token', data.token, 1)
+          history.push('/index');
+        }
+      })
+    } else{
+      IndexApi.saveRegister(values).then((res)=>{
+        const {code} =res; 
+        if(code===0){
+          setType(true)
+        }
+        
+      })
+    }
+    
   }
   const formateData = (data)=>{
     const tempData = data.map(item=>{
@@ -22,46 +50,12 @@ const Detail=()=> {
     })
     return tempData;
   }
-  let formRef = React.createRef<FormInstance>();
-const optionData = [
-  {
-      "id": 1,
-      "parent_id": 0,
-      "dept_name": "某科技公司",
-      "children": [
-          {
-              "id": 2,
-              "parent_id": 1,
-              "dept_name": "研发部",
-              "children": [
-                  {
-                      "id": 5,
-                      "parent_id": 2,
-                      "dept_name": "UI",
-                  }
-              ]
-          },
-          {
-              "id": 3,
-              "parent_id": 1,
-              "dept_name": "设计部",
-              "children": [
-                  {
-                      "id": 4,
-                      "parent_id": 3,
-                      "dept_name": "UE",
-                      "children": [
-                        {
-                          "id": 6,
-                          "dept_name": "测试",
-                        }
-                      ]
-                  }
-              ]
-          }
-      ]
-  }
-];
+  let formRef = React.createRef();
+  useEffect(()=>{
+    IndexApi.getDeptList().then((res)=>{
+      setOptionData(formateData(res.data));
+    })
+  },[])
   return (
     <div className={s.login_page}>
       <Form
@@ -91,14 +85,13 @@ const optionData = [
               value={deptData.name}
             />
             <Cascader
-              options={formateData(optionData)}
+              options={optionData}
               visible={visible}
               onConfirm={(val, extend) => {
                 const {items} = extend;
                 const item = items[items.length-1];
                 const names = items.map(dept=>dept?.label);
-                console.log(formRef.current)
-                formRef.current?.setFieldValue('dept_id', item&&item.value)
+                formRef.current.setFieldValue('dept_id', item&&item.value)
                 setDeptData({id: item&&item.value, name:names.join('-')});
               }}
               onClose={() => {

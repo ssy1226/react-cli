@@ -1,7 +1,9 @@
 import { lazy } from 'react'
-const Index = lazy(() => import(/* webpackChunkName: "Index" */ '@/pages/index'))
-const About = lazy(() => import(/* webpackChunkName: "About" */ '@/pages/about'))
-const Login = lazy(() => import(/* webpackChunkName: "Detail" */ '@/pages/detail'))
+const Index = lazy(() => import(/* webpackChunkName: "Index" */ '@/pages/index/index'))
+const About = lazy(() => import(/* webpackChunkName: "About" */ '@/pages/about/index'))
+const Login = lazy(() => import(/* webpackChunkName: "Detail" */ '@/pages/detail/index'))
+const Daily = lazy(() => import(/* webpackChunkName: "Detail" */ '@/pages/dailyReport/index'))
+const Yearly = lazy(() => import(/* webpackChunkName: "Detail" */ '@/pages/yearlyReport/index'))
 
 export interface RouteConfig {
   path: string
@@ -23,6 +25,15 @@ export const routes: RouteConfig[] = [
   {
     path: '/login',
     component: Login,
+    exact: true
+  },
+  {
+    path: '/daily',
+    component: Daily,
+    exact: true
+  },{
+    path: '/yearly',
+    component: Yearly,
     exact: true
   }
 ]
