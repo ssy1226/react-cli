@@ -1,8 +1,7 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { Button } from 'antd-mobile';
-
-import './index.scss'
+import { Button,Space } from 'antd-mobile';
+import s from './index.module.scss';
 
 const About = () => {
   const history = useHistory()
@@ -14,13 +13,15 @@ const About = () => {
   }
 
   return (
-    <div className="about-page">
-      <Button block color='primary' size='large' onClick={toDaily}>
-        查看日报
-      </Button>
-      <Button block color='primary' size='large' onClick={toYearly}>
-        查看年报
-      </Button>
+    <div className={s.about_page}>
+      <Space direction='vertical' block>
+        <Button block color='primary' size='large' onClick={toDaily}>
+          查看日报
+        </Button>
+        <Button block color='primary' size='large' onClick={toYearly}>
+          查看年报
+        </Button>
+      </Space>
     </div>
   )
 }
