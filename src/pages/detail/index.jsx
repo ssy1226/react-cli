@@ -6,7 +6,7 @@ import IndexApi from '@/api/index'
 
 const Detail=()=> {
   const history = useHistory()
-  const [type,setType] = useState(false);
+  const [type,setType] = useState(true);
   const [visible, setVisible] = useState(false);
   const [deptData, setDeptData] = useState({id:'',name: ''});
   const [optionData, setOptionData] = useState([]);
