@@ -6,7 +6,7 @@ import IndexApi from '@/api/index'
 const DailyReport = ()=>{
     const [dailyList,setDailyList] = useState([])
     useEffect(()=>{
-        IndexApi.getDailyList((res)=>{
+        IndexApi.getDailyList().then((res)=>{
             const {code,data} = res;
             if(code==0&&data){
                 setDailyList(data)
