@@ -6,52 +6,45 @@ import IndexApi from '@/api/index'
 function Index() {
   const [visible, setVisible] = useState(false)
   const [type, setType] = useState({ label: '日报', value: '1' });
-  const [selectLable, setSelectLable] = useState([]);
-  const [initialValues,setInitialValues] = useState({});
+  const [status,setStatus] = useState(0);
+  const [reportId,setReportID] = useState();
+  const [dailyform] = Form.useForm();
+  const [yearlyform] = Form.useForm();
   const basicColumns = [
     [
       { label: '日报', value: '1' },
       { label: '年报', value: '2' },
     ]
   ]
-  const mapOptions = {
-    '宣传惠企政策情况':'0',
-    '了解企业需求情况':'1',
-    '助企纾难解困情况':'2',
-    '指导企业党建情况':'3',
-    '营商环境监督情况':'4',
-    '办理实事好事情况':'5',
-    '其他工作情况':'1',
-  }
   const options = [
-    [{
+    {
       label: '宣传惠企政策情况',
-      value: '0',
-    }],
-    [{
+      value: '宣传惠企政策情况',
+    },
+    {
       label: '了解企业需求情况',
-      value: '1',
-    }],
-    [{
+      value: '了解企业需求情况',
+    },
+    {
       label: '助企纾难解困情况',
-      value: '2',
-    }],
-    [{
+      value: '助企纾难解困情况',
+    },
+    {
       label: '指导企业党建情况',
-      value: '3',
-    }],
-    [{
+      value: '指导企业党建情况',
+    },
+    {
       label: '营商环境监督情况',
-      value: '4',
-    }],
-    [{
+      value: '营商环境监督情况',
+    },
+    {
       label: '办理实事好事情况',
-      value: '5',
-    }],
-    [{
+      value: '办理实事好事情况',
+    },
+    {
       label: '其他工作情况',
-      value: '5',
-    }],
+      value: '其他工作情况',
+    },
   ];
   useEffect(()=>{
     if(type.value==1){
@@ -60,17 +53,18 @@ function Index() {
         const {code,data} =res; 
         if(code==0&&data.report){
           const {type,content}=data.report[0];
-          let result = {};
-          result[type]=content;
-          setInitialValues(data.report);
+          dailyform.setFieldsValue({type:[type],content})
+          setReportID(data.id);
+          setStatus(data.status)
         }
       })
     } else {
       IndexApi.getYearlyStatus().then(res=>{
         const {code,data} =res; 
         if(code==0&&data.report){
-          setInitialValues(data.report[0]);
-          setSelectLable(mapOptions[data.report[0].type])
+          yearlyform.setFieldValue(data.report[0])
+          setReportID(data.id)
+          setStatus(data.status)
         }
       })
     }
@@ -82,7 +76,7 @@ function Index() {
           "content": values.content
      }
     ]
-    IndexApi.saveYearlyReport({report}).then(res=>{
+    IndexApi.saveYearlyReport({report,id:reportId,status:0,}).then(res=>{
       const {code} = res
       if(code==0){
         Toast.show({
@@ -92,13 +86,10 @@ function Index() {
       }
     }
     )
-    console.log('onFinishYear',values);
-
   }
   const onFinishDay = (values)=>{
-    const key = Object.keys(values);
-    const report = [{type:options[key[0]][0].label,content:values[key[0]]}]
-    IndexApi.saveDailyReport({report}).then(res=>{
+    const report = [{content:values.content,type:values.type[0]}]
+    IndexApi.saveDailyReport({report,status:0,id:reportId}).then(res=>{
       const {code} = res
       if(code==0){
         Toast.show({
@@ -108,9 +99,8 @@ function Index() {
       }
     }
     )
-    console.log('onFinishDay',values);
   }
-  const formRef = React.createRef();
+  
   return (
     <div className={s.editPage}>
       <Form layout='horizontal'>
@@ -136,64 +126,45 @@ function Index() {
       {type.value=='2'?
         <Form
          layout='horizontal'
-         initialValues={initialValues}
+         form={yearlyform}
          onFinish={onFinishYear}
           footer={
-            <Button block type='submit' color='primary' size='large'>
+            <Button block type='submit' color='primary' size='large' disabled={status>0}>
               提交
             </Button>
         }>
           <Form.Item label='' name='content'>
             <TextArea
                 placeholder='请输入内容'
+                disabled={status>0}
                 autoSize={{ minRows: 3, maxRows: 10 }}
               />
           </Form.Item>
         </Form>:
         
         <Form
-          ref={formRef}
+          form={dailyform}
           onFinish={onFinishDay}
           footer={
-            <Button block type='submit' color='primary' size='large'>
+            <Button block type='submit' color='primary' size='large' disabled={status>0}>
               提交
-            </Button>
-        }
+            </Button>}
         >
-          {
-          options.map((item,idx)=>{
-            return <>
-            <Form.Item label=''>
-              <Selector
-                columns={1}
-                options={item}
-                disabled={selectLable.indexOf(`${idx}`)<0&&selectLable.length>0}
-                onChange={(val)=>{
-                  if(val.length>0){
-                    const selectId = val[0];
-                    console.log('selectId',selectId);
-                    if(selectLable.indexOf(selectId)<0){
-
-                      setSelectLable([...selectLable, val[0]]);
-                    }
-                  }else {
-                    let data = [...selectLable];
-                    data.splice(selectLable.indexOf(`${idx}`),1);
-                    setSelectLable(data);
-                  }
-                }}
+          <Form.Item label="内容" name='content'>
+            <TextArea
+                placeholder='请输入内容'
+                disabled={status>0}
+                autoSize={{ minRows: 3, maxRows: 5 }}
+                maxLength={60}
               />
-            </Form.Item>
-            {selectLable.indexOf(`${idx}`)>-1&&<Form.Item label={item[0].label} name={item[0].value}>
-              <TextArea
-                  placeholder='请输入内容'
-                  autoSize={{ minRows: 3, maxRows: 5 }}
-                  maxLength={60}
-                />
-            </Form.Item>}
-            </>
-          })
-        }
+          </Form.Item>
+          <Form.Item label='类型' name='type'>
+            <Selector
+              columns={2}
+              disabled={status>0}
+              options={options}
+            />
+          </Form.Item>
         </Form>
       }
     </div>
