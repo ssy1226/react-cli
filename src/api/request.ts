@@ -2,6 +2,11 @@ import axios, { AxiosRequestConfig, Method } from 'axios'
 import envConfig from '@/config'
 import { Toast } from 'antd-mobile-v2'
 import { getHttpStatusText } from './status'
+const getCookie =(name)=> 
+{ 
+    let arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)"); 
+　　 return (arr=document.cookie.match(reg))?unescape(arr[2]):null;
+}
 // import { LoadingElement } from '@/components/loading'
 /**
  * 接口返回类型 (根据后端返回的格式定义)
@@ -33,6 +38,7 @@ const initAxios = (loading?: boolean) => {
     // 自定义headers
     config.headers = {
       'Content-Type': 'application/json',
+      'token':getCookie('token'),
     }
     return config
   })
