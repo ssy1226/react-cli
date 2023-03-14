@@ -13,7 +13,7 @@ const RouterView = () => (
         {routes.map(route => (
           <Route key={route.path} path={route.path} component={route.component} exact={route.exact}></Route>
         ))}
-        <Redirect to="/index"></Redirect>
+        <Redirect to="/login"></Redirect>
       </Switch>
     </Suspense>
   </BrowserRouter>
