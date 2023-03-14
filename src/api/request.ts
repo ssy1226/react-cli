@@ -1,9 +1,8 @@
 import axios, { AxiosRequestConfig, Method } from 'axios'
 import envConfig from '@/config'
 import { Toast } from 'antd-mobile-v2'
-import { useHistory } from 'react-router-dom'
 import { getHttpStatusText } from './status'
-const history = useHistory()
+
 const getCookie =(name)=> 
 { 
     let arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)"); 
@@ -104,9 +103,6 @@ export default function request(
         // 这里可以添加和后台的 status 约定
         if (data.code !== 0) {
           Toast.info(data.msg)
-        }
-       if(code==10006){
-         history.push('/login');
         }
         resolve(data)
       })
