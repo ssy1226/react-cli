@@ -2,15 +2,19 @@ import React, {useState, useEffect} from 'react';
 import { Ellipsis,List } from 'antd-mobile';
 import s from './index.module.scss';
 import IndexApi from '@/api/index'
+import { useHistory } from 'react-router-dom'
 
 const YearlyReport = ()=>{
+    const history = useHistory()
     const [dailyList,setDailyList] = useState([])
     useEffect(()=>{
         IndexApi.getYearlyList().then((res)=>{
             const {code,data} = res;
             if(code==0&&data){
                 setDailyList(data)
-            }
+            }if(code==10006) {
+                history.push('/login');
+              }
         })
     },[])
     return (

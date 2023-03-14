@@ -6,7 +6,7 @@ import { LoadingElement } from '@/components/loading'
 
 /* Use components to define routes */
 const RouterView = () => (
-  <BrowserRouter basename="/m">
+  <BrowserRouter basename="">
     <AppTabBar></AppTabBar>
     <Suspense fallback={LoadingElement}>
       <Switch>
