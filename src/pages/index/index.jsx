@@ -127,12 +127,13 @@ function Index() {
     <div className={s.editPage}>
       <Form layout='horizontal'>
         <Form.Item label='填写类型'>
-        <Input placeholder='请选择'
-            onFocus={() => {
+        <Button
+            onClick={() => {
               setVisible(true)
             }}
-            value={type.label}
-          />
+          >
+          {type.label}
+          </Button>
           <Picker
             columns={basicColumns}
             visible={visible}
